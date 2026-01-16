@@ -10,7 +10,7 @@ module tt_um_taghreed_eialsalman_half_adder (
     input  wire       clk,
     input  wire       rst_n
 );
-
+    
     wire A = ui_in[0];
     wire B = ui_in[1];
 
