@@ -7,34 +7,46 @@ from cocotb.triggers import ClockCycles
 
 
 @cocotb.test()
-async def test_project(dut):
-    dut._log.info("Start")
+async def test_half_adder(dut):
+    dut._log.info("Starting Half Adder Test")
 
-    # Set the clock period to 10 us (100 KHz)
+    # Clock (required by template)
     clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
 
     # Reset
-    dut._log.info("Reset")
     dut.ena.value = 1
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+    await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
-
-    dut._log.info("Test project behavior")
-
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
-
-    # Wait for one clock cycle to see the output values
     await ClockCycles(dut.clk, 1)
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
+    # Test all input combinations
+    test_vectors = [
+        (0, 0),
+        (0, 1),
+        (1, 0),
+        (1, 1),
+    ]
 
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    for a, b in test_vectors:
+        # Put A and B on ui_in[0] and ui_in[1]
+        dut.ui_in.value = (b << 1) | a
+        await ClockCycles(dut.clk, 1)
+
+        sum_out = dut.uo_out.value.integer & 0x1
+        carry_out = (dut.uo_out.value.integer >> 1) & 0x1
+
+        expected_sum = a ^ b
+        expected_carry = a & b
+
+        dut._log.info(
+            f"A={a}, B={b} -> SUM={sum_out}, CARRY={carry_out}"
+        )
+
+        assert sum_out == expected_sum, f"SUM mismatch for A={a}, B={b}"
+        assert carry_out == expected_carry, f"CARRY mismatch for A={a}, B={b}"
+
+    dut._log.info("Half Adder test PASSED ✅")
