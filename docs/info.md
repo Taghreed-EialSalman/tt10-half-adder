@@ -1,40 +1,25 @@
-# Half Adder – Tiny Tapeout Project
+# Half Adder
 
 ## How it works
+This design implements a 1-bit **Half Adder**.
 
-This project implements a **Half Adder** digital circuit using Verilog.
+Inputs:
+- `ui_in[0]` = A
+- `ui_in[1]` = B
 
-A Half Adder adds two 1-bit binary inputs:
+Outputs:
+- `uo_out[0]` = SUM = A ^ B
+- `uo_out[1]` = CARRY = A & B
+- `uo_out[7:2]` are tied to 0
 
-- **A**
-- **B**
-
-and produces two outputs:
-
-- **SUM** = A ⊕ B (XOR)
-- **CARRY** = A · B (AND)
-
-### Truth Table
-
-| A | B | SUM | CARRY |
-|---|---|-----|-------|
-| 0 | 0 |  0  |   0   |
-| 0 | 1 |  1  |   0   |
-| 1 | 0 |  1  |   0   |
-| 1 | 1 |  0  |   1   |
-
-The design is implemented in `src/project.v` and follows combinational logic only (no clock, no memory).
-
----
+The bidirectional IOs are unused:
+- `uio_out` = 0
+- `uio_oe`  = 0
 
 ## How to test
-
-The project is tested using **cocotb** with **Icarus Verilog**.
-
-### Local test steps
+The module is verified using cocotb.
 
 From the repository root:
-
 ```bash
 cd test
 make
