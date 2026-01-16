@@ -5,10 +5,13 @@ project:
   description: "A simple half adder: Sum=A^B, Carry=A&B"
   language: "Verilog"
   clock_hz: 0
-  tiles: "1x1"
-  top_module: "tt_um_taghreed_eialsalman_half_adder"
-  source_files:
-    - src/project.v
+  tiles: 1x1
+
+top_module: tt_um_taghreed_eialsalman_half_adder
+
+source_files:
+  - src/project.v
+
 
 pinout:
   ui[0]: "A"
