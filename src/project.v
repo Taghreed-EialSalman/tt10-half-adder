@@ -1,3 +1,4 @@
+// half adder - ensure file is tracked
 `default_nettype none
 
 module tt_um_taghreed_eialsalman_half_adder (
