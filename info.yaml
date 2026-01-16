@@ -9,7 +9,7 @@ project:
 
   top_module: "tt_um_taghreed_eialsalman_half_adder"
   source_files:
-    - "src/project.v"
+    - "project.v"
 
 
 pinout:
